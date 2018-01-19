@@ -52,6 +52,7 @@ class Index extends BaseController
 
     public function verify()
     {
+        return lang('SAVE');
         return verify();
     }
 }
