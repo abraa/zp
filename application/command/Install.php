@@ -40,7 +40,8 @@ class Install extends Command{                            //继承think\console\
     {
         include __DIR__.DS . 'common' . EXT;
         $this->setReplace();
-
+        $rootPath = $input->getOption('root_path');
+        $this->rootPath = empty($rootPath) ? ROOT_PATH : $rootPath;
     }
 
     /**
@@ -59,6 +60,7 @@ class Install extends Command{                            //继承think\console\
     {
         $this->setDefinition([
             new Option('prefix', 'p', Option::VALUE_OPTIONAL, "数据库表前缀"),       //使用方式  php think hello  --option test或 -o test
+            new Option('root_path', 'rp', Option::VALUE_OPTIONAL, "安装路径"),       //使用方式  php think hello  --option test或 -o test
         ]);
     }
 
