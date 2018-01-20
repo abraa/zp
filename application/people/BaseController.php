@@ -13,6 +13,7 @@
 namespace app\people;
 
 
+use app\common\support\ConfigSupport;
 use app\common\support\LoginSupport;
 use think\Controller;
 
@@ -59,6 +60,7 @@ class BaseController extends Controller{
     protected $allow = ['login','logout','verify'];
     public function _initialize()
     {
+        config(ConfigSupport::getConfig());
         parent::_initialize();
         //校验权限
         $this->access();

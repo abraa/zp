@@ -13,6 +13,8 @@
 namespace app\people\logic;
 
 
+use app\common\support\EmailSupport;
+use app\common\support\SmsSupport;
 use app\people\BaseLogic;
 use app\common\support\LoginSupport;
 use think\captcha\Captcha;
@@ -114,7 +116,7 @@ class Passport extends BaseLogic{
         $where['user_name'] = strip_tags($username);
         $userInfo = $this->dbModel->getRow($where);
         //管理不存在
-        if (!empty($userInfo)) {
+        if (empty($userInfo)) {
             $this->err = lang('account_exists');
             return false;
         }
@@ -169,14 +171,128 @@ class Passport extends BaseLogic{
         Session::set($key . $id, $secode, '');
 
         //TODO... 发送短信...
-//        $res = MemberCenter::sms($mobile,$content);
-//        $res['error'] = 'M000000';
-//        $res['message'] = $content;
-        if(isset($res['error']) && $res['error'] == 'M000000'){
-            $this->msg = $res['message'];
+        $res = SmsSupport::sendSms($mobile,$content);
+        if(true == $res){
+            $this->msg = lang('success');
             return true;
         }else{
-            $this->err = $res['message'];
+            $this->err = $res;
+            return false;
+        }
+    }
+
+
+    /**
+     * 修改密码
+     */
+    public function password(){
+        $password = !empty($this->data['login_password']) ? $this->data['login_password'] : null;
+        $confirm_password = !empty($this->data['confirm_password']) ? $this->data['confirm_password'] : null;
+        $new_password = !empty($this->data['new_password']) ? $this->data['new_password'] : null;
+        $userId = LoginSupport::getUserId();
+        if (empty($userId)) {
+            $this->err = lang('LOGIN_AGAIN');
+            return false;
+        }
+        if (empty($password)||empty($new_password) || empty($confirm_password) ) {
+            $this->err = lang('MISSING_PARAMS');
+            return false;
+        }
+        if ($new_password <>$confirm_password) {
+            $this->err = lang('CONFIRM_PASSWORD_ERROR');
+            return false;
+        }
+        $this->setModel('user');
+        if($this->dbModel->isUpdate(true)->save(['password'=>password($new_password)],['user_id'=>$userId])){
+            $this->msg =  lang('edit') . lang('success');
+            return true;
+        }else{
+            $this->msg = lang('edit') . lang('error');
+            return false;
+        }
+    }
+
+
+    /**
+     * 找回密码             (默认使用验证码修改密码找回)
+     */
+    public function retrieve(){
+        $mobile = !empty($this->data['mobile']) ? $this->data['mobile'] : null;
+        $email = !empty($this->data['email']) ? $this->data['email'] : null;
+        $confirm_password = !empty($this->data['confirm_password']) ? $this->data['confirm_password'] : null;
+        $new_password = !empty($this->data['new_password']) ? $this->data['new_password'] : null;
+        $verify_code = !empty($this->data['verify_code']) ? $this->data['verify_code'] : null;
+        if (empty($new_password) || empty($confirm_password) ) {
+            $this->err = lang('MISSING_PARAMS');
+            return false;
+        }
+        if ($new_password <>$confirm_password) {
+            $this->err = lang('CONFIRM_PASSWORD_ERROR');
+            return false;
+        }
+        $verify = false;
+        if (!empty($verify_code)) {
+            $verify = captcha_check($verify_code);;
+        }
+        if (empty($verify)) {
+            $this->err = lang('verify_code_error');
+            return false;
+        }
+        if (!empty($mobile)) {                              //通过验证码修改密码找回
+            $where = ['phone'=>$mobile];
+        }elseif(!empty($email)){
+            $where = ['email'=>$email];
+        }else{
+            //TODO...
+            return false;
+        }
+        $this->setModel('user');
+        if($this->dbModel->isUpdate(true)->save(['password'=>password($new_password)],$where)){
+            $this->msg =  lang('edit') . lang('success');
+            return true;
+        }else{
+            $this->msg = lang('edit') . lang('error');
+            return false;
+        }
+    }
+
+    /**
+     * 发送邮件
+     * @return bool
+     */
+    public function sendEmail(){
+        $email = isset($this->data['email']) ? $this->data['email'] : '';
+        if(empty($email)){
+            $this->err = lang('email_not_exits');
+            return false;
+        }
+        $captcha = new Captcha();
+        $id = '';                                                                    //验证码区分标识(一个页面多个验证码时需要)
+        $code = [];
+        for ($i = 0; $i < $captcha->length; $i++) {                                     //生成验证码
+            $code[$i] = $captcha->codeSet[mt_rand(0, strlen($captcha->codeSet) - 1)];
+        }
+        $code = implode('', $code);
+        $content = sprintf(lang('sms_verify_text'),$code);
+        //通过反射调用private保存验证码
+        $captchaClass = new \ReflectionClass(get_class($captcha));
+        $method          = $captchaClass->getMethod('authcode');
+        $method->setAccessible(true);
+        $key = $method->invokeArgs($captchaClass, array($captcha->__get('seKey')));
+        $code =$method->invokeArgs($captchaClass, array(strtoupper($code)));
+        // 保存验证码
+        $secode                = [];
+        $secode['verify_code'] = $code; // 把校验码保存到session
+        $secode['verify_time'] = time(); // 验证码创建时间
+        Session::set($key . $id, $secode, '');
+
+        //TODO... 发送邮件...
+        $res = EmailSupport::sendMail($tomail='', $subject = '', $body = '');
+        if(true == $res){
+            $this->msg = lang('success');
+            return true;
+        }else{
+            $this->err = $res;
             return false;
         }
     }

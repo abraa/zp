@@ -2,6 +2,7 @@
 //语言包
 return [
     'REGISTER' => '注册',
+    'CONFIRM_PASSWORD_ERROR'=> '密码不一致',
 
     //登陆管理
     'LOGIN_WELCOME' => '欢迎你',
@@ -27,5 +28,7 @@ return [
     'SEND'                  => '发送',
     'VERIFY'                => '校验',
     'PARAMS_EMPTY'          => '参数为空',
+    'EMAIL_NOT_EXITS'      => '请输入正确的邮箱',
+
     //TODO...
 ];

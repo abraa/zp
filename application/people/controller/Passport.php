@@ -19,11 +19,21 @@ use app\people\BaseController;
 
 class Passport extends BaseController{
 
+    protected $allowAction = ['sendsms','sendemail','register','retrieve'];
     /**
      *  发送短信
      */
     public function sendsms(){
         $result = $this->logic->sendMobileCaptcha();
+        if($result){
+            $this->success(lang('send').lang('success'),$this->logic->getInfo());
+        }else{
+            $this->error($this->logic->getError());
+        }
+    }
+
+    public function sendemail(){
+        $result = $this->logic->sendEmail();
         if($result){
             $this->success(lang('send').lang('success'),$this->logic->getInfo());
         }else{
@@ -79,7 +89,33 @@ class Passport extends BaseController{
      *   找回密码
      */
     public function retrieve(){
+        $this->layout(false);
+        if (request()->isAjax()) {
+            $result = $this->logic->retrieve();
+            if ($result) {
+                $this->success($this->logic->getInfo(), url('login'));
+            } else {
+                $this->error($this->logic->getError());
+            }
+        } else {
+            return $this->fetch();
+        }
+    }
 
+    /**
+     *  修改密码
+     */
+    public function password(){
+        if (request()->isAjax()) {
+            $result = $this->logic->password();
+            if ($result) {
+                $this->success($this->logic->getInfo(), url('login'));
+            } else {
+                $this->error($this->logic->getError());
+            }
+        } else {
+            return $this->fetch();
+        }
     }
 
     /**
