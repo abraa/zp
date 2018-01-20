@@ -13,4 +13,6 @@ return [
     "app\\command\\Base",
     "app\\command\\Region",
     "app\\command\\Wechat",
+    "app\\command\\Install",
+    "app\\command\\User",
 ];

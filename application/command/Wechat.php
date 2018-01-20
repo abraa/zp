@@ -70,7 +70,6 @@ class Wechat extends Install{
         }
         echo "=====================\n";
         echo "copy file Success\n";
-        //补充文件
         //3.安装扩展依赖composer
         exec( 'cd '.$this->rootPath) ;                      //到root_path安装composer require
         foreach($this->composer as $require){

@@ -39,7 +39,7 @@ class User extends Install{
     protected function initialize(Input $input, Output $output)
     {
         parent::initialize($input,$output);
-        $this->path = ROOT_PATH .'install'. DS .'base';
+        $this->path = ROOT_PATH .'install'. DS .'people';
     }
 
     /**
@@ -56,8 +56,8 @@ class User extends Install{
     protected function configure()
     {
         parent::configure();
-        $this->setName('base')                                 //命令名称
-        ->setDescription('后台基本框架,必须先安装!');                               //命令描述
+        $this->setName('user')                                 //命令名称
+        ->setDescription('用户模块!');                               //命令描述
     }
 
     /**
