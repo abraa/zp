@@ -7,6 +7,7 @@ return [
         'layout_on' => true,
         'layout_name' => 'layout',
     ],
+    'LOGIN_SESSION_KEY' => 'user_login_cookie',
     //TODO...
 ];
 
