@@ -1,7 +1,9 @@
 <?php
 namespace app\index\controller;
 
-class Tag
+use app\index\BaseController;
+
+class Tag extends BaseController
 {
 
 }

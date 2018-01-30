@@ -1,7 +1,9 @@
 <?php
 namespace app\index\logic;
 
-class Social
+use app\index\BaseLogic;
+
+class Social extends BaseLogic
 {
 
 }

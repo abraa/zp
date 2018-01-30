@@ -1,7 +1,9 @@
 <?php
 namespace app\index\controller;
 
-class User
+use app\index\BaseController;
+
+class User extends BaseController
 {
 
 }

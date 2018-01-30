@@ -1,7 +1,9 @@
 <?php
 namespace app\index\logic;
 
-class Tag
+use app\index\BaseLogic;
+
+class Tag extends BaseLogic
 {
 
 }

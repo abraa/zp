@@ -1,9 +1,9 @@
 <?php
 namespace app\index\model;
 
-use think\Model;
+use app\index\BaseModel;
 
-class UserCollection extends Model
+class UserCollection extends BaseModel
 {
 
 }

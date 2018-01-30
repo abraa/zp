@@ -1,7 +1,9 @@
 <?php
 namespace app\index\logic;
 
-class Msg
+use app\index\BaseLogic;
+
+class Msg extends BaseLogic
 {
 
 }

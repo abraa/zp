@@ -1,7 +1,9 @@
 <?php
 namespace app\index\controller;
 
-class Msg
+use app\index\BaseController;
+
+class Msg extends BaseController
 {
 
 }

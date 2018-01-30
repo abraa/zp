@@ -1,9 +1,9 @@
 <?php
 namespace app\index\model;
 
-use think\Model;
+use app\index\BaseModel;
 
-class MsgFeedback extends Model
+class MsgFeedback extends BaseModel
 {
 
 }

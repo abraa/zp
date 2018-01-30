@@ -1,7 +1,9 @@
 <?php
 namespace app\index\logic;
 
-class User
+use app\index\BaseLogic;
+
+class User extends BaseLogic
 {
 
 }

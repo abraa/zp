@@ -1,9 +1,9 @@
 <?php
 namespace app\index\model;
 
-use think\Model;
+use app\index\BaseModel;
 
-class UserResume extends Model
+class UserResume extends BaseModel
 {
 
 }

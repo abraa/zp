@@ -1,7 +1,9 @@
 <?php
 namespace app\index\controller;
 
-class Social
+use app\index\BaseController;
+
+class Social extends BaseController
 {
 
 }

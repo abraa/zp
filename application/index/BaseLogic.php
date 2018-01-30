@@ -193,7 +193,7 @@ class BaseLogic {
     public function save()
     {
         $pk = $this->dbModel->getPk();
-        if ($this->data[$pk]) {
+        if (isset($this->data[$pk])) {
             $this->dbModel->isUpdate(true);
             $this->data['user_id'] = LoginSupport::getUserId();
             $this->data['update_time'] = time();
@@ -227,7 +227,7 @@ class BaseLogic {
             }
         }
         $result = $this->dbModel->allowField(true)->save($this->data);
-        if (empty($this->data[$pk])) {
+        if (!isset($this->data[$pk])) {
             $this->data[$pk] = $this->dbModel->getLastInsID();
         }
         if ($result !== false) {
@@ -271,7 +271,7 @@ class BaseLogic {
         }
         $where = [];
         $pk = $this->dbModel->getPk();
-        if (!empty($this->data[$pk])) {
+        if (isset($this->data[$pk])) {
             if (strpos($this->data[$pk], ',') !== false) {
                 $where[$pk] = ['IN', $this->data[$pk]];
             } else {
@@ -303,7 +303,6 @@ class BaseLogic {
             $this->err = lang('SELECT_NODE') . lang('ADMIN');
             return false;
         }
-        $data = $this->data;
         if (method_exists($this, '_before_lock')) {
             $before = $this->_before_lock();
             if(!is_null($before)){
@@ -313,7 +312,7 @@ class BaseLogic {
 
         $where = [];
         $pk = $this->dbModel->getPk();
-        if (!empty($this->data[$pk])) {
+        if (isset($this->data[$pk])) {
             if (strpos($this->data[$pk], ',') !== false) {
                 $where[$pk] = ['IN', $this->data[$pk]];
             } else {

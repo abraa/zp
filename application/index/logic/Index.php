@@ -1,7 +1,9 @@
 <?php
 namespace app\index\logic;
 
-class Index
+use app\index\BaseLogic;
+
+class Index extends BaseLogic
 {
 
 }
