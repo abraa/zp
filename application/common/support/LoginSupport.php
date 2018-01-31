@@ -12,6 +12,9 @@
 
 namespace app\common\support;
 
+use think\exception\HttpResponseException;
+use think\Response;
+use think\Request;
 
 class LoginSupport {
     protected static $loginUser = null;
@@ -60,7 +63,18 @@ class LoginSupport {
      * @return null|string
      */
     public static function getUserId(){
-        return static::getUserInfo('user_id');
+        $user_id = static::getUserInfo('user_id');
+        if(empty($user_id)){
+            $result = [
+                'code' => '0',
+                'msg'  => '登录失效,请先登录!',
+                'time' => Request::instance()->server('REQUEST_TIME'),
+                'data' => ['code'=>'NO_LOGIN'],
+            ];
+            $response = Response::create($result, config('default_ajax_return'))->header([]);
+            throw new HttpResponseException($response);
+        }
+        return $user_id;
     }
 
 

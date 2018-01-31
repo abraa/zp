@@ -441,3 +441,56 @@ CREATE TABLE `py_user_school` (
   `school` varchar(250) DEFAULT NULL COMMENT '学校名称',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE `py_warrant` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键id',
+  `company_id` int(11) DEFAULT NULL COMMENT '公司idid',
+  `level_surplus` int(11) DEFAULT '0' COMMENT '剩余',
+  `level_text` varchar(255) DEFAULT NULL COMMENT '等级名称',
+  `level_id` int(11) DEFAULT NULL COMMENT '等级id',
+  `locked` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否锁定',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
+  `user_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '公司用户id',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='公司授权表';
+
+CREATE TABLE `py_warrant_linked` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键id',
+  `company_id` int(11) DEFAULT NULL COMMENT '公司id',
+  `resume_id` int(11) DEFAULT NULL COMMENT '简历id',
+  `locked` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否锁定',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
+  `user_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '公司用户id',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='公司关联表';
+
+CREATE TABLE `py_level` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键id',
+  `text` varchar(255) NOT NULL COMMENT '文本',
+  `num` int(11) DEFAULT '0' COMMENT '数量',
+  `price` int(11) DEFAULT NULL COMMENT '价格',
+  `remark` text COMMENT '描述',
+  `locked` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否锁定',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='公司关联表';
+
+CREATE TABLE `py_order` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键id',
+  `text` varchar(255) NOT NULL COMMENT '文本(名称)',
+  `product_id` int(11) NOT NULL COMMENT '关联商品id',
+  `num` int(11) DEFAULT '0' COMMENT '数量',
+  `price` int(11) DEFAULT NULL COMMENT '价格',
+  `pay_type` varchar(255) NOT NULL COMMENT '支付方式',
+  `pay_status` tinyint(3) DEFAULT '0' COMMENT '支付状态0.未付款|.已付款',
+  `remark` text COMMENT '描述',
+  `user_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '公司用户id',
+  `locked` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否锁定',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='公司关联表';
+

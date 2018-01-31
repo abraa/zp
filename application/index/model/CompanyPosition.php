@@ -8,9 +8,8 @@ class CompanyPosition extends BaseModel
 
     public function filter($params)
     {
-
         $this->alias('CP');
-        $this->view('Company','text,address,scale,industry,tel,qq,audit','Company.id=CP.company_id','LEFT');
+        $this->view('Company','text,address,scale,welfare,thumb,industry,tel,qq,audit','Company.id=CP.company_id','LEFT');
         $where = [];
         $order = [];
         $field = [];

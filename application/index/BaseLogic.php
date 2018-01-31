@@ -270,6 +270,7 @@ class BaseLogic {
             }
         }
         $where = [];
+        $where['user_id'] = LoginSupport::getUserId();
         $pk = $this->dbModel->getPk();
         if (isset($this->data[$pk])) {
             if (strpos($this->data[$pk], ',') !== false) {
@@ -311,6 +312,7 @@ class BaseLogic {
         }
 
         $where = [];
+        $where['user_id'] = LoginSupport::getUserId();
         $pk = $this->dbModel->getPk();
         if (isset($this->data[$pk])) {
             if (strpos($this->data[$pk], ',') !== false) {

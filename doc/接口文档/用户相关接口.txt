@@ -1,0 +1,76 @@
+  
+序号	接口名称	更新时间	编写人
+一、	职位列表		
+二、			
+三、			
+四			
+五			
+
+
+
+
+
+
+
+
+一：职位列表
+接口描述：	找工作|查看公司职位列表等。
+请求地址：	https://域名/index/company_position/index
+请求方式：	post
+请求参数：
+字段	类型	必填	长度	描述	示例值
+接口参数：
+keyword	string	否	不限	关键字公司名称|职位名称|工作地点	
+company_id	Int	否	11	公司id	
+user_id	Int	否	11	用户id	
+salary	Int	否	11	薪水	
+experience	Int	否	11	工作经验	
+education	Int	否	11	学历	
+order	Int	否	11	推荐	desc(降序)
+update_time	Int	否	11	更新时间	desc(降序)
+返回参数：
+
+请求示例：
+无前端演示代码
+对应示例：
+{
+  "total": 1,(总条数)
+  "rows": [
+    {
+      "text": "公司名称",
+      "address": "公司地址",
+      "scale": "公司规模",
+"welfare": "公司福利",
+      "thumb": "公司图片",
+      "industry": "所属行业",
+      "tel": "电话",
+      "qq": "qq",
+      "audit": 1已审核,0未审核,2.不通过
+      "id": 职位id,
+      "company_id": 公司id,
+      "user_id": 用户id,
+      "latitude": "纬度",
+      "longitude": "经度",
+      "distance": 距离Km,
+      "collection": 0未收藏1已收藏,
+      "position_name": "职位名称",
+      "position_tag": "职位名称对应tag_id",
+      "place": "工作地点",
+      "salary":招聘薪资tag_id,
+      "experience":工作经验tag_id,
+      "education":学历tag_id,
+      "order": 推荐顺序,
+      "create_time": "1970-01-01 08:00:01",
+      "update_time": "1970-01-01 08:00:01",
+      "locked": 0显示,1不显示
+    }
+  ],
+  "pagecount": 1
+}
+异常示例：
+
+错误码解释：
+    
+
+
+
