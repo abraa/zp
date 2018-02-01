@@ -13,11 +13,12 @@
 namespace app\index;
 
 use app\common\support\LoginSupport;
-use app\common\support\LogSupport;
 use think\exception\ClassNotFoundException;
+use traits\controller\Jump;
 
 
 class BaseLogic {
+    use Jump;
     /**
      * 信息
      * @var string
@@ -249,14 +250,16 @@ class BaseLogic {
     }
 
     public function info(){
+        if (method_exists($this, '_before_info')) {
+            $this->_before_info();
+        }
         if (method_exists($this->dbModel, 'filter')) {
             $this->data['field'] = true;
             $this->dbModel->filter($this->data);
         }
         $data = $this->dbModel->getRow();
-
-        if (method_exists($this, 'format')) {
-            $data = $this->format($data);
+        if (method_exists($this, '_after_info')) {
+            $data = $this->_after_info($data);
         }
         return $data;
     }

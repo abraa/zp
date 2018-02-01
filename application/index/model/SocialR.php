@@ -5,6 +5,15 @@ use app\index\BaseModel;
 
 class SocialR extends BaseModel
 {
+
+    public function socialA(){
+       return $this->hasMany('SocialA','r_id')->field('r_id,content')->view('WechatUser','nickname','user_id = WechatUser.id');
+    }
+
+    public function SocialApproval(){
+       return $this->hasMany('SocialApproval','r_id');
+    }
+
     public function filter($params)
     {
         $where = [];
@@ -18,6 +27,10 @@ class SocialR extends BaseModel
             $where['r_id'] = $params['r_id'];
         }
         $this->order(['update_time'=>'desc']);
+        $this->with('socialA');
         $this->where($where);
+        $this->withCount('SocialApproval');
     }
+
+
 }

@@ -2,6 +2,7 @@
 namespace app\index\controller;
 
 use app\common\support\LoginSupport;
+use app\common\support\UploadSupport;
 use app\index\BaseController;
 use extend\WeChatSmall;
 
@@ -61,5 +62,17 @@ class Index extends BaseController
         $this->success('更新资料成功');
     }
 
+    /**
+     * 上传文件 返回文件路径
+     */
+    public function upload(){
+        LoginSupport::getUserId();  //检查用户是否登录
+        $res = UploadSupport::upload();
+        if(!$res){
+            $this->error('上传失败');
+        }else{
+            $this->success('上传成功','',$res);
+        }
+    }
 
 }

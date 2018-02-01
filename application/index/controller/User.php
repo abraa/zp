@@ -3,9 +3,31 @@ namespace app\index\controller;
 
 use app\index\BaseController;
 use app\common\support\LoginSupport;
+use app\common\support\LogSupport;
 
 class User extends BaseController
 {
+
+    /**
+     *  获取指定字段值 QQ,TEL
+     */
+    public function getValue(){
+        $field = input('field');
+        $resume_id = input('resume_id');
+        if(empty($field) || empty($resume_id)){
+            $this->error("缺少参数");
+        }
+        //检查是否购买与绑定
+        $user_id = LoginSupport::getUserId();
+        $level_surplus = model('warrant')->where('user_id',$user_id)->sum('level_surplus');     //剩余次数
+        //TODO... 暂不处理
+//        $company_id = model('warrant')->where('user_id',$user_id)->value('company_id');
+//        if(empty($company_id)){
+//            $this->error('公司还未注册成为会员');
+//        }
+        $res = model('UserResume')->where('id',$resume_id)->value($field);
+        $this->success('Success','',[$field=>$res]);
+    }
 
     /**
      * 收藏
@@ -24,7 +46,7 @@ class User extends BaseController
             $this->error('用户不存在');
         }
         $user =$user->toArray();
-        model('msgUser')->create(['user_id'=>$user['user_id'],'title'=>$realname.'收藏了您的职位'.$user['position_name']]);
+        LogSupport::userMsg($user['user_id'],$realname.'收藏了您的职位'.$user['position_name']);            //用户消息
         $this->success('收藏成功');
     }
 
@@ -64,7 +86,7 @@ class User extends BaseController
         }else{                  //用户
             $user_id = model('userResume')->where('id',$c_id)->value('user_id');
         }
-        model('msgUser')->create(['user_id'=>$user_id,'title'=>'有用户举报了您'.$tag_text]);
+        LogSupport::userMsg($user_id,'有用户举报了您'.$tag_text);            //用户消息
         $this->success("举报成功");
     }
 }

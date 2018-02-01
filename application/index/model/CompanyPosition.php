@@ -1,6 +1,7 @@
 <?php
 namespace app\index\model;
 
+use app\common\support\LoginSupport;
 use app\index\BaseModel;
 
 class CompanyPosition extends BaseModel
@@ -22,6 +23,21 @@ class CompanyPosition extends BaseModel
         if(isset($params['id'])){
             $where['CP.id'] = $params['id'];
         }
+        else
+            if(isset($params['collection'])){
+                $ids = db('userCollection')->where('user_id',LoginSupport::getUserId())->column('position_id');
+                $where['CP.id'] = ['in',$ids];
+            }
+            else
+                if(isset($params['browse'])){                   //浏览
+                    $ids = db('userPosition')->where('user_id',LoginSupport::getUserId())->column('position_id');
+                    $where['CP.id'] = ['in',$ids];
+                }
+                else
+                    if(isset($params['attention'])){                   //关注 - 被浏览
+                        $ids = db('userCompany')->where('user_id',LoginSupport::getUserId())->column('company_id');
+                        $where['CP.company_id'] = ['in',$ids];
+                    }
         if (isset($params['keyword']) && !empty($params['keyword'])) {
             $where['position_name|place|Company.text'] = ['LIKE', "%{$params['keyword']}%"];
         }

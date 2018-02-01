@@ -26,6 +26,7 @@ class Company extends BaseLogic
             $this->data['thumb'] = UploadSupport::base64SaveImage($this->data['thumb']);
         }
         if(isset($this->data['license'])){
+            $this->data['audit'] = 0;                                  //上传执照需要重新认证
             $this->data['license'] = UploadSupport::base64SaveImage($this->data['license']);
         }
     }

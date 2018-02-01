@@ -32,4 +32,43 @@ class LogSupport {
         );
         db('adminLog')->insert($data);
     }
+
+    /**
+     * 用户消息
+     * @param $user_id
+     * @param $title
+     * @param string $content
+     * @return int|string
+     */
+    public static function userMsg($user_id,$title,$content = ''){
+        $data = array(
+            'user_id' => $user_id,
+            'title' => $title,
+            'content' => $content,
+            'update_time' => time(),
+            'create_time' => time(),
+        );
+        return db('msgUser')->insert($data);
+    }
+
+    /**
+     * 系统消息
+     * @param $user_id
+     * @param $title
+     * @param string $thumb
+     * @param string $content
+     * @return int|string
+     */
+    public static function sysMsg($user_id,$title,$thumb='',$content = ''){
+        $user_id or $user_id = 0;
+        $data = array(
+            'user_id' => $user_id,
+            'title' => $title,
+            'content' => $content,
+            'thumb' => $thumb,
+            'update_time' => time(),
+            'create_time' => time(),
+        );
+        return db('msgUser')->insert($data);
+    }
 }

@@ -2,6 +2,7 @@
 namespace app\index\controller;
 
 use app\common\support\LoginSupport;
+use app\common\support\LogSupport;
 use app\index\BaseController;
 
 class Company extends BaseController
@@ -32,7 +33,7 @@ class Company extends BaseController
         //用户消息
         $companyName = model('company')->where('user_id',$user_id)->value('text');
         $userId = model('userResume')->where('id',$resume_id)->value('user_id');
-        model('msgUser')->create(['user_id'=>$userId,'title'=>$companyName.'收藏了您的简历']);
+        LogSupport::userMsg($userId,$companyName.'收藏了您的简历');            //用户消息
         $this->success('收藏成功');
     }
 
@@ -72,7 +73,7 @@ class Company extends BaseController
         }else{                  //用户
             $user_id = model('userResume')->where('id',$c_id)->value('user_id');
         }
-        model('msgUser')->create(['user_id'=>$user_id,'title'=>'有用户举报了您'.$tag_text]);
+        LogSupport::userMsg($user_id,'有用户举报了您'.$tag_text);            //用户消息
         $this->success("举报成功");
     }
 }

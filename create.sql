@@ -464,7 +464,7 @@ CREATE TABLE `py_warrant_linked` (
   `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
   `user_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '公司用户id',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='公司关联表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='公司授权查看数据关联表';
 
 CREATE TABLE `py_level` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键id',
@@ -476,7 +476,7 @@ CREATE TABLE `py_level` (
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='公司关联表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='等级(商品)表';
 
 CREATE TABLE `py_order` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键id',
@@ -492,5 +492,5 @@ CREATE TABLE `py_order` (
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='公司关联表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='订单表';
 

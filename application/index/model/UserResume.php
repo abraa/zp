@@ -2,9 +2,18 @@
 namespace app\index\model;
 
 use app\index\BaseModel;
+use app\common\support\LoginSupport;
 
 class UserResume extends BaseModel
 {
+
+    public function school(){
+        return $this->hasMany('UserSchool','resume_id')->field('id,start_time,end_time,text,school');
+    }
+
+    public function work(){
+        return $this->hasMany('UserWork','resume_id')->field('id,start_time,end_time,text,company');
+    }
 
     public function filter($params)
     {
@@ -20,7 +29,11 @@ class UserResume extends BaseModel
         }
         if(isset($params['id'])){
             $where['id'] = $params['id'];
-        }
+        }else
+            if(isset($params['collection'])){                   //收藏
+                $ids = db('companyCollection')->where('user_id',LoginSupport::getUserId())->column('resume_id');
+                $where['CP.id'] = ['in',$ids];
+            }
         if (isset($params['keyword']) && !empty($params['keyword'])) {
             $where['position_name|place|realname'] = ['LIKE', "%{$params['keyword']}%"];
         }
@@ -39,14 +52,14 @@ class UserResume extends BaseModel
             //SELECT * ,ROUND(lat_lng_distance(20, 40, latitude, longitude), 2) as dis FROM py_company_position ORDER BY dis desc;
         }
         if(isset($params['salary'])){
-            $where['salary'] = ['ELT',$params['salary']];
+            $where['salary'] = $params['salary'];
         }
         if(isset($params['experience'])){
-            $where['experience'] = ['EGT',$params['experience']];
+            $where['experience'] = $params['experience'];
         }
         if(isset($params['education'])){
             //如果要取比这个大的所有值,先去tag查询比这大的所有id(order字段?)
-            $where['education'] = ['EGT',$params['education']];
+            $where['education'] = $params['education'];
         }
         if(isset($params['order'])){                    //排序
             $order['order'] = $params['order'];

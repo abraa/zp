@@ -50,7 +50,7 @@ class LoginSupport {
     }
 
     /**
-     *  退出登录销毁session喝用户数据
+     *  退出登录销毁session和用户数据
      */
     public static function logout(){
         $key = config('LOGIN_SESSION_KEY');
@@ -63,6 +63,7 @@ class LoginSupport {
      * @return null|string
      */
     public static function getUserId(){
+        return 1;
         $user_id = static::getUserInfo('user_id');
         if(empty($user_id)){
             $result = [
